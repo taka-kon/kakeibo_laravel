@@ -6,23 +6,37 @@
 @section('main')
 <div class="main-input">
     <h2 class="main-input__title">新規登録</h2>
+    <p>{{$msg}}</p>
+    @if (count($errors)>0)
+      <p class="error">* 入力に誤りがあります。</p>
+    @endif
     
 
-  <form action="" method="post" class="form" enctype="multipart/form-data">
+  <form action="/signup" method="post" class="form" enctype="multipart/form-data">
+  {{ csrf_field() }}
     <dl>
       <dt class="main-input__headline">●ニックネーム</dt>
       <dd class="main-input__tag-dd">
-        <input type="text" name="name" id="" class="main-input__form" maxlength="255" value="">
+        <input type="text" name="name" id="" class="main-input__form" maxlength="255" value="{{old ('name') }}">
+        @if($errors->has('name'))
+          <p class="error">{{$errors->first('name')}}</p>
+        @endif
       </dd>
 
       <dt class="main-input__headline">●メールアドレス</dt>
       <dd class="main-input__tag-dd">
-        <input type="text" name="email" id="" class="main-input__form" maxlength="255" value="">
+        <input type="text" name="email" id="" class="main-input__form" maxlength="255" value="{{ old('email') }}">
+        @if($errors->has('email'))
+          <p class="error">{{$errors->first('email')}}</p>
+        @endif
       </dd>
 
       <dt class="main-input__headline">●パスワード</dt>
       <dd class="main-input__tag-dd">
-        <input type="password" name="password" id="" class="main-input__form" maxlength="100" value="">
+        <input type="password" name="password" id="" class="main-input__form" maxlength="100" value="{{ old('password') }}">
+        @if($errors->has('password'))
+          <p class="error">{{$errors->first('password')}}</p>
+        @endif
       </dd>
 
       <dt class="main-input__headline">●性別</dt>
