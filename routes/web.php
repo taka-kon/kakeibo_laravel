@@ -18,6 +18,7 @@ Route::get('/', function () {
 });
 
 Route::get('signup', 'JoinController@index');
+Route::post('signup','JoinController@post');
 
 
 
