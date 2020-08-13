@@ -5,17 +5,18 @@
 
 @section('main')
 <div class="main-input">
+  @if (count($errors)>0)
+    <p class="error">* 入力に誤りがあります。</p>
+  @endif
     <h2 class="main-input__title">新規登録</h2>
     <p>{{$msg}}</p>
-    @if (count($errors)>0)
-      <p class="error">* 入力に誤りがあります。</p>
-    @endif
+    
     
 
   <form action="/signup" method="post" class="form" enctype="multipart/form-data">
   {{ csrf_field() }}
     <dl>
-      <dt class="main-input__headline">●ニックネーム</dt>
+      <dt class="main-input__headline">※ニックネーム</dt>
       <dd class="main-input__tag-dd">
         <input type="text" name="name" id="" class="main-input__form" maxlength="255" value="{{old ('name') }}">
         @if($errors->has('name'))
@@ -23,7 +24,7 @@
         @endif
       </dd>
 
-      <dt class="main-input__headline">●メールアドレス</dt>
+      <dt class="main-input__headline">※メールアドレス</dt>
       <dd class="main-input__tag-dd">
         <input type="text" name="email" id="" class="main-input__form" maxlength="255" value="{{ old('email') }}">
         @if($errors->has('email'))
@@ -31,7 +32,7 @@
         @endif
       </dd>
 
-      <dt class="main-input__headline">●パスワード</dt>
+      <dt class="main-input__headline">※パスワード</dt>
       <dd class="main-input__tag-dd">
         <input type="password" name="password" id="" class="main-input__form" maxlength="100" value="{{ old('password') }}">
         @if($errors->has('password'))
@@ -39,30 +40,48 @@
         @endif
       </dd>
 
-      <dt class="main-input__headline">●性別</dt>
+      <dt class="main-input__headline">※性別</dt>
       <dd class="main-input__tag-dd">
-        
-        <input type="radio" name="sex" id="" value="1" >男性
-        <input type="radio" name="sex" id="" value="2" >女性
-        <input type="radio" name="sex" id="" value="3" >その他
+        <input type="radio" name="sex" id="" value="1" {{ old('sex') == '1' ? 'checked' : ''}}>男性
+        <input type="radio" name="sex" id="" value="2" {{ old('sex') == '2' ? 'checked' : ''}}>女性
+        <input type="radio" name="sex" id="" value="3"{{ old('sex') == '3' ? 'checked' : ''}}>その他
+        @if($errors->has('sex'))
+          <p class="error">{{$errors->first('sex')}}</p>
+        @endif
         
       </dd>
 
-      <dt class="main-input__headline">生年月日</dt>
+      <dt class="main-input__headline">※生年月日</dt>
       <dd class="main-input__tag-dd">
+      
 
-      <select name="year" class="main-input__select">'
-        <option value="0">-----年</option>
-        <option value="1960">1960年</option>
+      <select name="year" class="main-input__select">
+        <option value="">-----年</option>
+        @for($i=1960;$i<=date("Y");$i++)
+        <option value="{{$i}}" {{ old('year') == $i ? 'selected' : ''}}>{{$i}}年</option>
+        @endfor
       </select>
       <select name="month" class="main-input__select">
-        <option value="0">--月</option>
-        <option value="1">1月</option>
+        <option value="">--月</option>
+        @for($i=1;$i<=12;$i++)
+        <option value="{{$i}}" {{ old('month') == $i ? 'selected' : ''}}>{{$i}}月</option>
+        @endfor
       </select>
       <select name="day" class="main-input__select">
-        <option value="0">--日</option>
-        <option value="1">1日</option>
+        <option value="">--日</option>
+        @for($i=1;$i<=31;$i++)
+        <option value="{{$i}}" {{ old('day') == $i ? 'selected' : ''}}>{{$i}}日</option>
+        @endfor
       </select>
+      @if($errors->has('year'))
+          <p class="error">{{$errors->first('year')}}</p>
+      @endif
+      @if($errors->has('month'))
+          <p class="error">{{$errors->first('month')}}</p>
+      @endif
+      @if($errors->has('day'))
+          <p class="error">{{$errors->first('day')}}</p>
+      @endif
 
       </dd>
       <dt>●アイコン画像</dt>
@@ -71,6 +90,7 @@
       </dd>
 
     </dl>
+
     <button class="button button--register">確認画面へ</button>
   </form>
 
