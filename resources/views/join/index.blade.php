@@ -9,11 +9,8 @@
     <p class="error">* 入力に誤りがあります。</p>
   @endif
     <h2 class="main-input__title">新規登録</h2>
-    <p>{{$msg}}</p>
-    
-    
 
-  <form action="/signup" method="post" class="form" enctype="multipart/form-data">
+  <form action="{{route('join.check')}}" method="post" class="form" enctype="multipart/form-data">
   {{ csrf_field() }}
     <dl>
       <dt class="main-input__headline">※ニックネーム</dt>
@@ -42,9 +39,9 @@
 
       <dt class="main-input__headline">※性別</dt>
       <dd class="main-input__tag-dd">
-        <input type="radio" name="sex" id="" value="1" {{ old('sex') == '1' ? 'checked' : ''}}>男性
-        <input type="radio" name="sex" id="" value="2" {{ old('sex') == '2' ? 'checked' : ''}}>女性
-        <input type="radio" name="sex" id="" value="3"{{ old('sex') == '3' ? 'checked' : ''}}>その他
+        <input type="radio" name="sex" id="" value="男性" {{ old('sex') == '男性' ? 'checked' : ''}}>男性
+        <input type="radio" name="sex" id="" value="女性" {{ old('sex') == '女性' ? 'checked' : ''}}>女性
+        <input type="radio" name="sex" id="" value="その他"{{ old('sex') == 'その他' ? 'checked' : ''}}>その他
         @if($errors->has('sex'))
           <p class="error">{{$errors->first('sex')}}</p>
         @endif
@@ -87,6 +84,9 @@
       <dt>●アイコン画像</dt>
       <dd>
         <input type="file" name="image" value="test" />
+        @if($errors->has('image'))
+          <p class="error">{{$errors->first('image')}}</p>
+      @endif
       </dd>
 
     </dl>
@@ -94,7 +94,7 @@
     <button class="button button--register">確認画面へ</button>
   </form>
 
-  <a href="login.php">ログインページへ</a>
+  <a href="{{route('main.login')}}">ログインページへ</a>
   </div>
 
 @endsection

@@ -17,15 +17,25 @@
 	
 	<title>@yield('title')家計簿アプリ</title>
 	</head>
+	@php 
+		$url=$_SERVER['REQUEST_URI'];
+	@endphp
+	@if(strpos($url,'/page')!==false)
+	<body class="bg-index">
+	@elseif($url=="/login")
 	<body class="bg-input">
+	@else
+	<body class="bg-else">
+	@endif
 	
 	<header class="header">
 	<div class="container">
 	<h1 class="header__title">家計簿アプリ</h1>
-	
+	@if(strpos($url,"/page")!==false)
 	<div class="header__button">
-	<a class="button button--logout" href="logout.php">ログアウト</a>
+	<a class="button button--logout" href="{{route('main.logout')}}">ログアウト</a>
 	</div>
+	@endif
 	
 	
 	</div>
