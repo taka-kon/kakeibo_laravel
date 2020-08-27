@@ -44,7 +44,7 @@ Route::get('page',[
 ]);
 //記録更新
 Route::post('page',[
-    'uses'=>'MainController@index',
+    'uses'=>'MainController@post',
     'as'=>'main.index'
 ]);
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
 
 use App\Users;
+use App\Expense;
 use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
@@ -34,7 +35,7 @@ class MainController extends Controller
     }
 
     public function index(LoginRequest $request){
-        
+
         
         $email=$request->email;
         $password = $request->password;
@@ -93,6 +94,9 @@ class MainController extends Controller
                 $date=$request->date;
             }
 
+                
+            
+
             $data=[
                 'ses_id'=>$ses_id,
                 'time'=>$ses_time,
@@ -119,6 +123,13 @@ class MainController extends Controller
             入力したemailやpasswordがDBに無かったら、ログインページに飛ばす
         */
 
+    }
+    public function post(Request $request){
+        $this->validate($request,Expense::$rules);
+        $expense = new Expense;
+        $expense->day=$request->date;
+        $expense->save();
+        return redirect('/page');
     }
 
     //ログアウト

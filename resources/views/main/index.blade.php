@@ -20,33 +20,20 @@
       @csrf
 
       <p class="main-index__form-label">日付</p>
-      <!-- 
-        エラーが起こったときに、今日以外の日付を設定したとき、今日の日付
-       -->
       <input type="date" name="date" class="main-index__select" value="{{$date}}">
-      
-    
-      <!-- <select name="year" class="main-index__select">
-      <option value="">2020年</option>
-      </select>
-      <select name="month" class="main-index__select">
-      <option value="">8月</option>
-      </select>
-      <select name="day" class="main-index__select">
-      <option value="">1日</option>
-      <option value="">2日</option>
-      <option value="">3日</option>
-      </select> -->
       <p class="main-index__form-label">ジャンル</p>
      
       <select name="genre" class="main-index__select">
-      <option value="100" >未選択</option>
-      <option value="0" >食費</option>
-      <option value="1" >日用品費</option>
+      <option value="食費" >食費</option>
+      <option value="日用品費" >日用品費</option>
+      <option value="レジャー費" >レジャー費</option>
+      <option value="交通費" >交通費</option>
+      <option value="固定費" >固定費</option>
+      <option value="その他" >その他</option>
   
       </select>
       <p class="main-index__form-label">出費</p>
-      <input type="number" min="0" name="minus" value="" class="main-index__text">
+      <input type="number" min="0" name="minus" value="0" class="main-index__text">
 
       
       <br>
