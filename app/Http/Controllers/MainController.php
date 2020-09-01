@@ -7,7 +7,6 @@ use App\Http\Requests\LoginRequest;
 
 use App\Users;
 use App\Expense;
-use Illuminate\Support\Facades\Auth;
 
 class MainController extends Controller
 {
@@ -90,19 +89,28 @@ class MainController extends Controller
             ユーザーページの日付の初期値を今日にしたい
             */
             $date=date("Y-m-d");
-            if($request->isMethod('post')){
-                $date=$request->date;
-            }
-
-                
+            //送信すると画面が白くなった。送信先は?..がないものでそれが原因か ログインをポストにすれば?
+            //ログインをポストするとpostメソッドが被った
+            // dd($request->isMethod('get'));
+            // if($request->isMethod('post')){
+            //     $this->validate($request,Expense::$rules);
+            //     $expense = new Expense;
+            //     $expense->day=$request->date;
+            //     dd($request->isMethod('post'));
+            //     $expense->save();
+            //     return view('main.login');
+            // }
+            $items=Expense::where('user_id',$ses_id)->orderBy('created_at','desc')->get();
+            // $items=Users::all();
+            // dd($items);
             
-
             $data=[
                 'ses_id'=>$ses_id,
                 'time'=>$ses_time,
                 'name'=>$name,
                 'icon'=>$icon_pass,
                 'date'=>$date,
+                'items'=>$items,
             ];
 
             return view('main.index',$data);
@@ -125,11 +133,59 @@ class MainController extends Controller
 
     }
     public function post(Request $request){
-        $this->validate($request,Expense::$rules);
-        $expense = new Expense;
-        $expense->day=$request->date;
-        $expense->save();
-        return redirect('/page');
+        $ses_id=$request->session()->get('id');
+        // dd($request->date);
+        $input = new Expense;
+        $input->user_id = $ses_id;
+        $input->day = $request->date;
+        $input->genre = $request->genre;
+        $input->minus = $request->minus;
+        $input->save();
+
+        // $sql = "SELECT * FROM expenses WHERE DATE_FORMAT(day,'%Y%m')=DATE_FORMAT(NOW(),'%Y%m') and user_id=?";
+        // $now_mon= $db->prepare($sql);
+        // $now_mon->execute(array(
+        // $ses_id,
+        // ));
+        // $now_month=$now_mon->fetchAll();
+        // dd($now_month);
+
+        //ログインユーザid取得
+      $name = Users::where('id',$ses_id)->value('name');
+
+      //1.idフォルダまでのパスを取得(後のif文で使う)
+      $pass_id='\\mem_pic\\'.$ses_id;
+      //2."mem_pic/$ses_id/"にicon.jpg(jpeg,png)が存在するか？存在したら画像ファイル名の変数に代入
+      if(file_exists(public_path().$pass_id.'\\icon.jpg')){
+          $icon_name='icon.jpg';
+      }elseif(file_exists(public_path().$pass_id.'\\icon.png')){
+          $icon_name='icon.png';
+      }elseif(file_exists(public_path().$pass_id.'\\icon.jpeg')){
+          $icon_name='icon.jpeg';
+      }
+      //3.idまでのパスとファイル名が揃ったら連結し、送るパスが完成
+      $icon_pass="mem_pic/".$ses_id."/".$icon_name;
+
+      /*
+    ユーザーページの日付の初期値を今日にしたい
+    */
+    $date=date("Y-m-d");
+    $items=Expense::where('user_id',$ses_id)->orderBy('created_at','desc')->get();
+
+      $data=[
+        'icon'=>$icon_pass,
+        'name'=>$name,
+        'date'=>$date,
+        'items'=>$items,
+      ];
+        return view("main.index",$data);
+        // return redirect("page");
+    }
+    //更新の取消
+    public function delete(Request $request,$id){
+        dd($id);
+        return view('main.index');
+
     }
 
     //ログアウト

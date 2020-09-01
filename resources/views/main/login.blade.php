@@ -13,8 +13,8 @@
     <p class="error">{{session('msg')}}</p>
     <h2 class="main-input__title">ログイン</h2>
     <p class="error"></p>
-    <form action="{{route('main.index')}}" method="get">
-    {{ csrf_field() }}
+    <form action="{{route('main.index')}}" method="post">
+    @csrf
       <dl>
         <dt class="main-input__headline">●メールアドレス</dt>
         <dd>

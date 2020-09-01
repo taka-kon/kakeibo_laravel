@@ -37,17 +37,22 @@ Route::get('login',[
     'uses'=>'MainController@login',
     'as'=>'main.login'
 ]);
+
 //管理画面
-Route::get('page',[
+Route::post('page',[
     'uses'=>'MainController@index',
     'as'=>'main.index'
 ]);
 //記録更新
-Route::post('page',[
+Route::post('page/inputed',[
     'uses'=>'MainController@post',
-    'as'=>'main.index'
+    'as'=>'main.post'
 ]);
-
+//expensesテーブルのレコード削除（取消ボタン）
+Route::get('page/delete?id={id}',[
+    'uses'=>'MainController@delete',
+    // 'as'=>'main.delete'
+]);
 //ログアウト
 Route::get('logout',[
     'uses'=>'MainController@logout',
