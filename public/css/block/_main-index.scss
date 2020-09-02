@@ -26,7 +26,7 @@
     &__name{
       font-size:3.0rem;
       margin:0 5px;
-      color: rgb(0, 182, 45);
+      color: $font-name;
     }
 
     &__top-text2{
@@ -128,6 +128,11 @@
       margin-top:30px;
       font-size:1.0rem;
       text-align: left;
+    }
+
+    &__msg-name{
+      color:$font-name;
+      font-weight: bold;
     }
 
 

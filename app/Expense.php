@@ -7,6 +7,9 @@ use Illuminate\Database\Eloquent\Model;
 class Expense extends Model
 {
     protected $guarded = array('id');
+    protected $dates = [
+        'day', 
+    ];
     public static $rules= array(
         'user_id'=>'required',
         'day'=>'required',

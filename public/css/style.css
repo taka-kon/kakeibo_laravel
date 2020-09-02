@@ -562,6 +562,10 @@ a {
   font-size: 1.0rem;
   text-align: left;
 }
+.main-index__msg-name {
+  color: #00b62d;
+  font-weight: bold;
+}
 
 .button {
   background-color: lightgray;

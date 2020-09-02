@@ -101,8 +101,16 @@ class MainController extends Controller
             //     return view('main.login');
             // }
             $items=Expense::where('user_id',$ses_id)->orderBy('created_at','desc')->get();
-            // $items=Users::all();
-            // dd($items);
+
+            //以下は今月分の出費合計を算出する処理
+            $now=now();
+            $n=$now->format('Y-m');
+            //自分のidに絞り、今月と等しい月のレコードを取得
+            $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$n.'%')->get(['minus'])->toArray();
+            $sum=0;
+            for($i=0;$i<count($record);$i++){
+                $sum+=$record[$i]['minus'];
+            }
             
             $data=[
                 'ses_id'=>$ses_id,
@@ -111,6 +119,7 @@ class MainController extends Controller
                 'icon'=>$icon_pass,
                 'date'=>$date,
                 'items'=>$items,
+                'sum'=>$sum,
             ];
 
             return view('main.index',$data);
@@ -172,20 +181,74 @@ class MainController extends Controller
     $date=date("Y-m-d");
     $items=Expense::where('user_id',$ses_id)->orderBy('created_at','desc')->get();
 
+    //以下は今月分の出費合計を算出する処理
+    $now=now();
+    $n=$now->format('Y-m');
+    //自分のidに絞り、今月と等しい月のレコードを取得
+    $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$n.'%')->get(['minus'])->toArray();
+    $sum=0;
+    for($i=0;$i<count($record);$i++){
+        $sum+=$record[$i]['minus'];
+    }
+
       $data=[
         'icon'=>$icon_pass,
         'name'=>$name,
         'date'=>$date,
         'items'=>$items,
+        'sum'=>$sum,
       ];
         return view("main.index",$data);
-        // return redirect("page");
     }
+
+
     //更新の取消
     public function delete(Request $request,$id){
-        dd($id);
-        return view('main.index');
+        Expense::find($id)->delete();
 
+        $ses_id=$request->session()->get('id');
+          //ログインユーザid取得
+      $name = Users::where('id',$ses_id)->value('name');
+
+      //1.idフォルダまでのパスを取得(後のif文で使う)
+      $pass_id='\\mem_pic\\'.$ses_id;
+      //2."mem_pic/$ses_id/"にicon.jpg(jpeg,png)が存在するか？存在したら画像ファイル名の変数に代入
+      if(file_exists(public_path().$pass_id.'\\icon.jpg')){
+          $icon_name='icon.jpg';
+      }elseif(file_exists(public_path().$pass_id.'\\icon.png')){
+          $icon_name='icon.png';
+      }elseif(file_exists(public_path().$pass_id.'\\icon.jpeg')){
+          $icon_name='icon.jpeg';
+      }
+      //3.idまでのパスとファイル名が揃ったら連結し、送るパスが完成
+      $icon_pass="mem_pic/".$ses_id."/".$icon_name;
+
+      /*
+    ユーザーページの日付の初期値を今日にしたい
+    */
+    $date=date("Y-m-d");
+    $items=Expense::where('user_id',$ses_id)->orderBy('created_at','desc')->get();
+
+    //以下は今月分の出費合計を算出する処理
+    $now=now();
+    $n=$now->format('Y-m');
+    //自分のidに絞り、今月と等しい月のレコードを取得
+    $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$n.'%')->get(['minus'])->toArray();
+    $sum=0;
+    for($i=0;$i<count($record);$i++){
+        $sum+=$record[$i]['minus'];
+    }
+
+      $data=[
+        'icon'=>$icon_pass,
+        'name'=>$name,
+        'date'=>$date,
+        'items'=>$items,
+        'sum'=>$sum,
+      ];
+      
+        return view('main.index',$data);
+        // return redirect()->action('MainController@index');
     }
 
     //ログアウト

@@ -49,9 +49,9 @@ Route::post('page/inputed',[
     'as'=>'main.post'
 ]);
 //expensesテーブルのレコード削除（取消ボタン）
-Route::get('page/delete?id={id}',[
+Route::get('page/delete/{id}',[
     'uses'=>'MainController@delete',
-    // 'as'=>'main.delete'
+    'as'=>'main.delete'
 ]);
 //ログアウト
 Route::get('logout',[

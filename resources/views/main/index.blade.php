@@ -9,7 +9,7 @@
     <h2 class="main-index__top-text1"><span class="main-index__name">{{$name}}</span></h2>
     <div class="main-index__top-expense">
       <h2 class="main-index__top-text1">今月の出費額 </h2>
-      <p class="main-index__top-text2"><span class="main-index__price" id = "price">10000</span>円</p>
+      <p class="main-index__top-text2"><span class="main-index__price" id = "price">{{$sum}}</span>円</p>
 
     </div>
 
@@ -87,10 +87,10 @@
     
     
         <p>{{$item->getCreated()}}追加</p>
-        <p>{{$item->getUserName()}}は、
+        <span class="main-index__msg-name">{{$item->getUserName()}}</span>は、
           <b class="main-index__italic">{{$item->getDay()}}</b>に<b>{{$item->getMinus()}}</b>を<b>{{$item->getGenre()}}</b>で使いました。
         <div class="main-index__button-delete">
-          <a href="delete?id={{$item->getId()}}" class="button button--delete">取消</a>
+          <a href="{{route('main.delete',['id'=>$item->getId()])}}" class="button button--delete">取消</a>
 
         </div>
         <hr>
