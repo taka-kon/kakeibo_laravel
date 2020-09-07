@@ -1,6 +1,8 @@
 @extends('layouts.kakeibotemp')
 
-@section('title','マイページ｜')
+@section('title')
+{{$name}}｜
+@endsection
 
 @section('main')
 <div class="main-index">
@@ -42,6 +44,10 @@
     </form>
     <!-- グラフを表示 -->
     <div class="main-index__graphs">
+
+    @include('components.line3m')
+    @include('components.line6m')
+
       
     
       <h2 class="main-index__head">3か月</h2>

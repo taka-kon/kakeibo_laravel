@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\InputRequest;
 
 use App\Users;
 use App\Expense;
@@ -89,28 +90,115 @@ class MainController extends Controller
             ユーザーページの日付の初期値を今日にしたい
             */
             $date=date("Y-m-d");
-            //送信すると画面が白くなった。送信先は?..がないものでそれが原因か ログインをポストにすれば?
-            //ログインをポストするとpostメソッドが被った
-            // dd($request->isMethod('get'));
-            // if($request->isMethod('post')){
-            //     $this->validate($request,Expense::$rules);
-            //     $expense = new Expense;
-            //     $expense->day=$request->date;
-            //     dd($request->isMethod('post'));
-            //     $expense->save();
-            //     return view('main.login');
-            // }
+            /*
+                expensesテーブルのレコードを新しい順に取得
+            */
             $items=Expense::where('user_id',$ses_id)->orderBy('created_at','desc')->get();
+            $sum3m="";
+            $sum3m_eat="";
+            $sum3m_live="";
+            $sum3m_reja="";
+            $sum3m_kotu="";
+            $sum3m_kote="";
+            $sum3m_other="";
+            /*
+            更に省略できそうか
+            for文をforeachで囲う
+            上の配列変数をジャンル名をキーとした配列にする
+             */
+            $genres=[
+                '合計'=>$sum3m,
+                '食費'=>$sum3m_eat,
+                '日用品費'=>$sum3m_live,
+                'レジャー費'=>$sum3m_reja,
+                '交通費'=>$sum3m_kotu,
+                '固定費'=>$sum3m_kote,
+                'その他'=>$sum3m_other,
+            ];
+            $sum3m_array=[
+            ];
+            foreach($genres as $genre => $genre_sum){
+                for($i=-2;$i<=0;$i++){
+                    $now=date("Y-m",strtotime("$i month"));
+                    //自分のidに絞り、今月と等しい月のレコードを取得
+                    if($genre=="合計"){
+                        $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }else{
+                        $record=Expense::where('user_id',$ses_id)->where('genre',$genre)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }
+                    // dd($record);
+                    $sum=0;
+                    for($j=0;$j<count($record);$j++){
+                        $sum+=$record[$j]['minus'];
+                    }
+                    // dump($sum);
+                    $genre_sum.=$sum.",";
+                    if($genre=="合計" &&  $i==0){
+                        //マイページ上部に表示する今月合計出費額を格納する
+                        $sum_header=$sum;
+                    }
+                }
+                // dd($sum);
+                // dump($genre_sum);
+                $sum3m_array+=
+                    [$genre=>$genre_sum];
+                
+            }        
+            
+            
 
-            //以下は今月分の出費合計を算出する処理
-            $now=now();
-            $n=$now->format('Y-m');
-            //自分のidに絞り、今月と等しい月のレコードを取得
-            $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$n.'%')->get(['minus'])->toArray();
-            $sum=0;
-            for($i=0;$i<count($record);$i++){
-                $sum+=$record[$i]['minus'];
-            }
+            $sum6m="";
+            $sum6m_eat="";
+            $sum6m_live="";
+            $sum6m_reja="";
+            $sum6m_kotu="";
+            $sum6m_kote="";
+            $sum6m_other="";
+            /*
+            更に省略できそうか
+            for文をforeachで囲う
+            上の配列変数をジャンル名をキーとした配列にする
+             */
+            $genres=[
+                '合計'=>$sum6m,
+                '食費'=>$sum6m_eat,
+                '日用品費'=>$sum6m_live,
+                'レジャー費'=>$sum6m_reja,
+                '交通費'=>$sum6m_kotu,
+                '固定費'=>$sum6m_kote,
+                'その他'=>$sum6m_other,
+            ];
+            $sum6m_array=[
+            ];
+            foreach($genres as $genre => $genre_sum){
+                for($i=-5;$i<=0;$i++){
+                    $now=date("Y-m",strtotime("$i month"));
+                    //自分のidに絞り、今月と等しい月のレコードを取得
+                    if($genre=="合計"){
+                        $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }else{
+                        $record=Expense::where('user_id',$ses_id)->where('genre',$genre)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }
+                    // dd($record);
+                    $sum=0;
+                    for($j=0;$j<count($record);$j++){
+                        $sum+=$record[$j]['minus'];
+                    }
+                    // dump($sum);
+                    $genre_sum.=$sum.",";
+                    if($genre=="合計" &&  $i==0){
+                        //マイページ上部に表示する今月合計出費額を格納する
+                        $sum_header=$sum;
+                    }
+                }
+                // dd($sum);
+                // dump($genre_sum);
+                $sum6m_array+=
+                    [$genre=>$genre_sum];
+            }            
+    
+            
+
             
             $data=[
                 'ses_id'=>$ses_id,
@@ -119,7 +207,9 @@ class MainController extends Controller
                 'icon'=>$icon_pass,
                 'date'=>$date,
                 'items'=>$items,
-                'sum'=>$sum,
+                'sum'=>$sum_header,
+                'sum3m'=>$sum3m_array,
+                'sum6m'=>$sum6m_array,
             ];
 
             return view('main.index',$data);
@@ -191,12 +281,118 @@ class MainController extends Controller
         $sum+=$record[$i]['minus'];
     }
 
+    $sum3m="";
+            $sum3m_eat="";
+            $sum3m_live="";
+            $sum3m_reja="";
+            $sum3m_kotu="";
+            $sum3m_kote="";
+            $sum3m_other="";
+            /*
+            更に省略できそうか
+            for文をforeachで囲う
+            上の配列変数をジャンル名をキーとした配列にする
+             */
+            $genres=[
+                '合計'=>$sum3m,
+                '食費'=>$sum3m_eat,
+                '日用品費'=>$sum3m_live,
+                'レジャー費'=>$sum3m_reja,
+                '交通費'=>$sum3m_kotu,
+                '固定費'=>$sum3m_kote,
+                'その他'=>$sum3m_other,
+            ];
+            $sum3m_array=[
+            ];
+            foreach($genres as $genre => $genre_sum){
+                for($i=-2;$i<=0;$i++){
+                    $now=date("Y-m",strtotime("$i month"));
+                    //自分のidに絞り、今月と等しい月のレコードを取得
+                    if($genre=="合計"){
+                        $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }else{
+                        $record=Expense::where('user_id',$ses_id)->where('genre',$genre)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }
+                    // dd($record);
+                    $sum=0;
+                    for($j=0;$j<count($record);$j++){
+                        $sum+=$record[$j]['minus'];
+                    }
+                    // dump($sum);
+                    $genre_sum.=$sum.",";
+                    if($genre=="合計" &&  $i==0){
+                        //マイページ上部に表示する今月合計出費額を格納する
+                        $sum_header=$sum;
+                    }
+                }
+                // dd($sum);
+                // dump($genre_sum);
+                $sum3m_array+=
+                    [$genre=>$genre_sum];
+                
+            }        
+            
+            
+
+            $sum6m="";
+            $sum6m_eat="";
+            $sum6m_live="";
+            $sum6m_reja="";
+            $sum6m_kotu="";
+            $sum6m_kote="";
+            $sum6m_other="";
+            /*
+            更に省略できそうか
+            for文をforeachで囲う
+            上の配列変数をジャンル名をキーとした配列にする
+             */
+            $genres=[
+                '合計'=>$sum6m,
+                '食費'=>$sum6m_eat,
+                '日用品費'=>$sum6m_live,
+                'レジャー費'=>$sum6m_reja,
+                '交通費'=>$sum6m_kotu,
+                '固定費'=>$sum6m_kote,
+                'その他'=>$sum6m_other,
+            ];
+            $sum6m_array=[
+            ];
+            foreach($genres as $genre => $genre_sum){
+                for($i=-5;$i<=0;$i++){
+                    $now=date("Y-m",strtotime("$i month"));
+                    //自分のidに絞り、今月と等しい月のレコードを取得
+                    if($genre=="合計"){
+                        $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }else{
+                        $record=Expense::where('user_id',$ses_id)->where('genre',$genre)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+                    }
+                    // dd($record);
+                    $sum=0;
+                    for($j=0;$j<count($record);$j++){
+                        $sum+=$record[$j]['minus'];
+                    }
+                    // dump($sum);
+                    $genre_sum.=$sum.",";
+                    if($genre=="合計" &&  $i==0){
+                        //マイページ上部に表示する今月合計出費額を格納する
+                        $sum_header=$sum;
+                    }
+                }
+                // dd($sum);
+                // dump($genre_sum);
+                $sum6m_array+=
+                    [$genre=>$genre_sum];
+            }            
+    
+
       $data=[
         'icon'=>$icon_pass,
         'name'=>$name,
         'date'=>$date,
         'items'=>$items,
-        'sum'=>$sum,
+        'sum'=>$sum_header,
+        'sum3m'=>$sum3m_array,
+        'sum6m'=>$sum6m_array,
       ];
         return view("main.index",$data);
     }
@@ -239,12 +435,118 @@ class MainController extends Controller
         $sum+=$record[$i]['minus'];
     }
 
+
+    $sum3m="";
+    $sum3m_eat="";
+    $sum3m_live="";
+    $sum3m_reja="";
+    $sum3m_kotu="";
+    $sum3m_kote="";
+    $sum3m_other="";
+    /*
+    更に省略できそうか
+    for文をforeachで囲う
+    上の配列変数をジャンル名をキーとした配列にする
+        */
+    $genres=[
+        '合計'=>$sum3m,
+        '食費'=>$sum3m_eat,
+        '日用品費'=>$sum3m_live,
+        'レジャー費'=>$sum3m_reja,
+        '交通費'=>$sum3m_kotu,
+        '固定費'=>$sum3m_kote,
+        'その他'=>$sum3m_other,
+    ];
+    $sum3m_array=[
+    ];
+    foreach($genres as $genre => $genre_sum){
+        for($i=-2;$i<=0;$i++){
+            $now=date("Y-m",strtotime("$i month"));
+            //自分のidに絞り、今月と等しい月のレコードを取得
+            if($genre=="合計"){
+                $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+            }else{
+                $record=Expense::where('user_id',$ses_id)->where('genre',$genre)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+            }
+            // dd($record);
+            $sum=0;
+            for($j=0;$j<count($record);$j++){
+                $sum+=$record[$j]['minus'];
+            }
+            // dump($sum);
+            $genre_sum.=$sum.",";
+            if($genre=="合計" &&  $i==0){
+                //マイページ上部に表示する今月合計出費額を格納する
+                $sum_header=$sum;
+            }
+        }
+        // dd($sum);
+        // dump($genre_sum);
+        $sum3m_array+=
+            [$genre=>$genre_sum];
+        
+    }        
+    
+    
+
+    $sum6m="";
+    $sum6m_eat="";
+    $sum6m_live="";
+    $sum6m_reja="";
+    $sum6m_kotu="";
+    $sum6m_kote="";
+    $sum6m_other="";
+    /*
+    更に省略できそうか
+    for文をforeachで囲う
+    上の配列変数をジャンル名をキーとした配列にする
+        */
+    $genres=[
+        '合計'=>$sum6m,
+        '食費'=>$sum6m_eat,
+        '日用品費'=>$sum6m_live,
+        'レジャー費'=>$sum6m_reja,
+        '交通費'=>$sum6m_kotu,
+        '固定費'=>$sum6m_kote,
+        'その他'=>$sum6m_other,
+    ];
+    $sum6m_array=[
+    ];
+    foreach($genres as $genre => $genre_sum){
+        for($i=-5;$i<=0;$i++){
+            $now=date("Y-m",strtotime("$i month"));
+            //自分のidに絞り、今月と等しい月のレコードを取得
+            if($genre=="合計"){
+                $record=Expense::where('user_id',$ses_id)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+            }else{
+                $record=Expense::where('user_id',$ses_id)->where('genre',$genre)->where('day','like','%'.$now.'%')->get(['minus'])->toArray();
+            }
+            // dd($record);
+            $sum=0;
+            for($j=0;$j<count($record);$j++){
+                $sum+=$record[$j]['minus'];
+            }
+            // dump($sum);
+            $genre_sum.=$sum.",";
+            if($genre=="合計" &&  $i==0){
+                //マイページ上部に表示する今月合計出費額を格納する
+                $sum_header=$sum;
+            }
+        }
+        // dd($sum);
+        // dump($genre_sum);
+        $sum6m_array+=
+            [$genre=>$genre_sum];
+    }      
+
       $data=[
         'icon'=>$icon_pass,
         'name'=>$name,
         'date'=>$date,
         'items'=>$items,
-        'sum'=>$sum,
+        'sum'=>$sum_header,
+        'sum3m'=>$sum3m_array,
+        'sum6m'=>$sum6m_array,
       ];
       
         return view('main.index',$data);

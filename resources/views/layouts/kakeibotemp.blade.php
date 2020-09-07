@@ -42,5 +42,8 @@
 	
 	</header>
   @yield('main')
+	<script type="text/javascript" src="{{asset('/js/script.js')}}"></script>
+	<script type="text/javascript" src="{{asset('/js/line-3m.js')}}">
+</script>
 </body>
 </html>
