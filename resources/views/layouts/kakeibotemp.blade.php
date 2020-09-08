@@ -32,8 +32,11 @@
 	<div class="container">
 	<h1 class="header__title">家計簿アプリ</h1>
 	@if(strpos($url,"/page")!==false)
-	<div class="header__button">
-	<a class="button button--logout" href="{{route('main.logout')}}">ログアウト</a>
+	<div class="header__right">
+		<div class="header__button">
+		<a class="button button--logout" href="{{route('main.logout')}}">ログアウト</a>
+		</div>
+		<a href="{{route('join.setting')}}" class="header__setlink"><i class="fas fa-cog header__set-icon"></i></a>
 	</div>
 	@endif
 	

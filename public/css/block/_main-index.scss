@@ -8,7 +8,18 @@
     background-color:#fff;
     font-size:1.1rem;
     text-align: center;
+    position: relative;
 
+    &__msg{
+      position: absolute;
+      top:10px;
+      left:20px;
+      padding:20px;
+      background-color:$color-sub;
+      border-radius: 30px;
+      color:#fff;
+      font-size:1.6rem;
+    }
     &__icon{
       @include icon(200px);
     }
@@ -135,7 +146,12 @@
       font-weight: bold;
     }
 
-
+    @media screen and (max-width:720px){
+      padding:50px 10px;
+      &__msg{
+        font-size:1rem;
+      }
+    }
   }
   
  

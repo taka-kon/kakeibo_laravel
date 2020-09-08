@@ -6,6 +6,11 @@
 
 @section('main')
 <div class="main-index">
+@if(\Route::currentRouteName()=="main.post" || \Route::currentRouteName()=="main.delete")
+  <div class="main-index__msg">
+  {{$msg}}
+  </div>
+  @endif
     
     <img class="main-index__icon" src="{{asset($icon)}}" alt="">
     <h2 class="main-index__top-text1"><span class="main-index__name">{{$name}}</span></h2>
@@ -88,7 +93,7 @@
     <!-- 以下、更新情報 -->
     
     <div class="main-index__posts">
-      <h2 class="main-index__head">更新履歴</h2>
+      <h2 class="main-index__head">更新履歴（過去5件）</h2>
       @foreach($items as $item)
     
     

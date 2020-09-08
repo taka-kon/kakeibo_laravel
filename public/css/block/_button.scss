@@ -30,7 +30,7 @@
     font-size:1.3rem;
   }
   &--logout{
-    background-color:rgb(255, 181, 85);
+    background-color:$color-sub;
     padding:10px 20px;
     font-size:1.1rem;
     margin-top:300px;
@@ -55,7 +55,7 @@
   }
 
   &:hover{
-    opacity:0.9;
+    opacity:0.5;
   }
   
 }

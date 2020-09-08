@@ -390,6 +390,19 @@ a {
   font-size: 2.0rem;
   font-family: "M PLUS Rounded 1c", Meiryo, sans-serif;
 }
+.header__right {
+  display: flex;
+}
+.header__setlink {
+  transition: 0.5s;
+}
+.header__setlink:hover {
+  opacity: 0.5;
+}
+.header__set-icon {
+  font-size: 1.8rem;
+  color: #ffa126;
+}
 @media screen and (max-width: 767px) {
   .header__title {
     font-size: 1.4rem;
@@ -451,6 +464,17 @@ a {
   background-color: #fff;
   font-size: 1.1rem;
   text-align: center;
+  position: relative;
+}
+.main-index__msg {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  padding: 20px;
+  background-color: #ffa126;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 1.6rem;
 }
 .main-index__icon {
   display: inline-block;
@@ -566,6 +590,14 @@ a {
   color: #00b62d;
   font-weight: bold;
 }
+@media screen and (max-width: 720px) {
+  .main-index {
+    padding: 50px 10px;
+  }
+  .main-index__msg {
+    font-size: 1rem;
+  }
+}
 
 .button {
   background-color: lightgray;
@@ -595,7 +627,7 @@ a {
   font-size: 1.3rem;
 }
 .button--logout {
-  background-color: #ffb555;
+  background-color: #ffa126;
   padding: 10px 20px;
   font-size: 1.1rem;
   margin-top: 300px;
@@ -619,7 +651,7 @@ a {
   }
 }
 .button:hover {
-  opacity: 0.9;
+  opacity: 0.5;
 }
 
 .g-item__parts {

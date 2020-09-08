@@ -30,7 +30,7 @@ class Expense extends Model
     }
 
     public function getDay(){
-        return $this->day;
+        return $this->day->format('m月d日');
     }
     public function getGenre(){
         return $this->genre;

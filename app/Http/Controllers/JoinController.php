@@ -98,6 +98,14 @@ class JoinController extends Controller
 
         }
     }
+    public function set(Request $request){
+        $ses_id = $request->session()->get('id');
+        dump($ses_id);
+        if(empty($ses_id)){
+            return redirect()->route('main.login');
+        }
+        return view('join.setting');
+    }
 
 
 }
