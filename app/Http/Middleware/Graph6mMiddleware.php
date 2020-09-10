@@ -17,12 +17,14 @@ class Graph6mMiddleware
     public function handle($request, Closure $next)
     {
         $now_route = \Route::currentRouteName();    //現在のルート取得
-        if($now_route=="main.index"){
-            $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
-            $request->session()->put('id',$id);
-        }
+        // if($now_route=="main.index"){
+        //     $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
+        //     $request->session()->put('id',$id);
+        // }
 
         $ses_id = $request->session()->get('id');
+        // dump($ses_id);
+        // dd("6mミドルウェアです");
 
         $sum6m="";
         $sum6m_eat="";

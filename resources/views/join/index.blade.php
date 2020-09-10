@@ -9,8 +9,9 @@
     <p class="error">* 入力に誤りがあります。</p>
   @endif
     <h2 class="main-input__title">新規登録</h2>
+    <p>「※」は必須項目です。</p>
 
-  <form action="{{route('join.check')}}" method="post" class="form" enctype="multipart/form-data">
+  <form action="{{route('join.check')}}" method="post" class="main-input__forms" enctype="multipart/form-data">
   {{ csrf_field() }}
     <dl>
       <dt class="main-input__headline">※ニックネーム</dt>
@@ -83,7 +84,7 @@
       </dd>
       <dt>●アイコン画像</dt>
       <dd>
-        <input type="file" name="image" value="test" />
+        <input type="file" name="image" value="test" class="main-input__file"/>
         @if($errors->has('image'))
           <p class="error">{{$errors->first('image')}}</p>
       @endif

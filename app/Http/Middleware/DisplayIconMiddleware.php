@@ -23,12 +23,14 @@ class DisplayIconMiddleware
         /page/inputed/のとき　いらない
         */
         $now_route = \Route::currentRouteName();    //現在のルート取得
-        if($now_route=="main.index"){
-            $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
-            $request->session()->put('id',$id);
-        }
+        // if($now_route=="main.index"){
+        //     $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
+        //     $request->session()->put('id',$id);
+        // }
 
         $ses_id = $request->session()->get('id');
+        // dump($ses_id);
+        // dd("iconミドルウェアです");
         /*アイコン 
         概要：変数にパスの文字列を代入
         文字列"mem_pic/$ses_id/icon.xx"を送る

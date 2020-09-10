@@ -19,12 +19,15 @@ class Graph3mMiddleware
     public function handle($request, Closure $next)
     {
         $now_route = \Route::currentRouteName();    //現在のルート取得
-        if($now_route=="main.index"){
-            $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
-            $request->session()->put('id',$id);
-        }
+        // if($now_route=="main.index"){
+        //     $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
+        //     $request->session()->put('id',$id);
+        // }
+
 
         $ses_id = $request->session()->get('id');
+        // dump($ses_id);
+        // dd("3mミドルウェアです");
 
         $sum3m="";
         $sum3m_eat="";

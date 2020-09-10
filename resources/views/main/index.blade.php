@@ -3,12 +3,15 @@
 @section('title')
 {{$name}}｜
 @endsection
+@section('msg')
+{{$name}}｜
+@endsection
 
 @section('main')
 <div class="main-index">
-@if(\Route::currentRouteName()=="main.post" || \Route::currentRouteName()=="main.delete")
-  <div class="main-index__msg">
-  {{$msg}}
+@if(Session::has('msg'))
+  <div class="main-index__msg" id="main-index__msg">
+  {{session('msg')}}
   </div>
   @endif
     
@@ -39,9 +42,10 @@
   
       </select>
       <p class="main-index__form-label">出費</p>
-      <input type="number" min="0" name="minus" value="0" class="main-index__text">
-
-      
+      <input type="number" min="0" name="minus"  class="main-index__text">
+      @if($errors->has('minus'))
+        <p class="error">{{$errors->first('minus')}}</p>
+      @endif
       <br>
       <div class="main-index__button-post">
         <button class="button button--post">追加する</button>
@@ -99,7 +103,7 @@
     
         <p>{{$item->getCreated()}}追加</p>
         <span class="main-index__msg-name">{{$item->getUserName()}}</span>は、
-          <b class="main-index__italic">{{$item->getDay()}}</b>に<b>{{$item->getMinus()}}</b>を<b>{{$item->getGenre()}}</b>で使いました。
+          <b class="main-index__italic">{{$item->getDay()}}</b>に<b>{{$item->getMinus()}}円</b>を<b>{{$item->getGenre()}}</b>で使いました。
         <div class="main-index__button-delete">
           <a href="{{route('main.delete',['id'=>$item->getId()])}}" class="button button--delete">取消</a>
 

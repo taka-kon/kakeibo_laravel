@@ -337,12 +337,16 @@ img {
   pointer-events: none;
 }
 
+.clearfix::after {
+  content: '';
+  display: block;
+  clear: both;
+}
+
 .bg-index {
-  background-image: url("../img/sea-5314717_1920.jpg");
-  background-position: center center;
-  background-repeat: no-repeat;
+  background-image: url("../img/bg.png");
+  background-repeat: repeat;
   background-attachment: fixed;
-  background-size: cover;
 }
 
 .bg-input {
@@ -387,6 +391,7 @@ a {
   align-items: center;
 }
 .header__title {
+  position: relative;
   font-size: 2.0rem;
   font-family: "M PLUS Rounded 1c", Meiryo, sans-serif;
 }
@@ -419,6 +424,24 @@ a {
   border-radius: 30px;
   background-color: white;
   font-size: 1.1rem;
+  position: relative;
+}
+.main-input__msg {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  z-index: 9999;
+  padding: 20px;
+  background-color: #ffa126;
+  border-radius: 30px;
+  color: #fff;
+  font-size: 1.4rem;
+}
+.main-input__forms {
+  margin-top: 50px;
 }
 .main-input__title {
   font-size: 1.6rem;
@@ -431,6 +454,7 @@ a {
 .main-input__form {
   border: solid 1px #ddd;
   padding: 5px;
+  margin-top: 10px;
   margin-bottom: 10px;
   font-size: 1.1rem;
 }
@@ -441,6 +465,10 @@ a {
   border: solid 1px #ddd;
   margin-right: 5px;
   padding: 10px;
+}
+.main-input__file {
+  border: 1px solid #ddd;
+  width: 80%;
 }
 .main-input__check-image {
   display: inline-block;
@@ -453,6 +481,96 @@ a {
   border: 1px solid #ccc;
   background-size: cover;
   border-radius: 50%;
+}
+.main-input__icon-change {
+  display: inline-block;
+  background-color: #ccc;
+  background-position: center center;
+  background-repeat: no-repeat;
+  margin: 5px;
+  width: 150px;
+  height: 150px;
+  border: 1px solid #ccc;
+  background-size: cover;
+  border-radius: 50%;
+}
+.main-input__line {
+  margin: 30px 0;
+  display: flex;
+  justify-content: space-between;
+  background-color: #bbb;
+  padding: 30px;
+}
+.main-input__right-dd {
+  margin-left: 50px;
+}
+.main-input__headline--delete {
+  font-size: 0.9rem;
+  color: #d30000;
+  margin-bottom: 10px;
+}
+.main-input__popup {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: .1s;
+}
+.main-input__popup.is-show {
+  opacity: 1;
+  visibility: visible;
+}
+.main-input__popup-inner {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  padding: 50px;
+  background-color: #fff;
+  z-index: 2;
+}
+.main-input__popup-inner img {
+  width: 100%;
+}
+.main-input__close-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: 50px;
+  height: 50px;
+  line-height: 50px;
+  text-align: center;
+  cursor: pointer;
+}
+.main-input__close-btn i {
+  font-size: 20px;
+  color: #333;
+}
+.main-input__black-background {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1;
+  cursor: pointer;
+}
+.main-input__buttons {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 10px;
+}
+@media screen and (max-width: 720px) {
+  .main-input__msg {
+    font-size: 1rem;
+  }
 }
 
 .main-index {
@@ -467,9 +585,13 @@ a {
   position: relative;
 }
 .main-index__msg {
-  position: absolute;
-  top: 10px;
-  left: 20px;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  z-index: 9999;
   padding: 20px;
   background-color: #ffa126;
   border-radius: 30px;
@@ -642,6 +764,24 @@ a {
   background-color: #7a1a1a;
   padding: 5px;
   border-radius: 5px;
+}
+.button--delete-user {
+  background-color: #d30000;
+  font-size: 0.5rem;
+  padding: 5px;
+}
+.button--delete-user2 {
+  background-color: white;
+  color: #cacaca;
+  border: solid 1px #cacaca;
+  font-size: 0.8rem;
+  padding: 10px 30px;
+}
+.button--cancel {
+  background-color: #188efd;
+  color: #fff;
+  font-size: 0.8rem;
+  padding: 10px 30px;
 }
 @media screen and (max-width: 767px) {
   .button--logout {

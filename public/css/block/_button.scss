@@ -46,6 +46,24 @@
     padding:5px;
     border-radius: 5px;
   }
+  &--delete-user{
+    background-color:rgb(211, 0, 0);
+    font-size:0.5rem;
+    padding:5px;
+  }
+  &--delete-user2{
+    background-color:rgb(255, 255, 255);
+    color:#cacaca;
+    border:solid 1px #cacaca;
+    font-size:0.8rem;
+    padding:10px 30px;
+  }
+  &--cancel{
+    background-color:#188efd;
+    color:#fff;
+    font-size:0.8rem;
+    padding:10px 30px;
+  }
   @media screen and(max-width:767px) {
     &--logout{
       padding:5px 10px;

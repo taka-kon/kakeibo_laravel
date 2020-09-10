@@ -63,11 +63,11 @@ class Kernel extends HttpKernel
         'signed' => \Illuminate\Routing\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+
+        'login'=>\App\Http\Middleware\LoginMiddleware::class,
         'icon'=>\App\Http\Middleware\DisplayIconMiddleware::class,
         'graph3m'=>\App\Http\Middleware\Graph3mMiddleware::class,
         'graph6m'=>\App\Http\Middleware\Graph6mMiddleware::class,
-        'add'=>\App\Http\Middleware\AddExpenseMiddleware::class,
-        'delete'=>\App\Http\Middleware\DeleteExpenseMiddleware::class,
     ];
 
     protected $middlewarePriority = [

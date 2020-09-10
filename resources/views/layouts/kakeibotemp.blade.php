@@ -3,6 +3,10 @@
 	<html lang="ja">
 	<head>
 	<meta charset="UTF-8">
+	<link rel="shortcut icon" href="{{asset('img/logo.png')}}" type="image/x-icon">
+	<meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<link rel="stylesheet" href="{{asset('css/style.css')}}">
 	<link href="https://fonts.googleapis.com/css?family=M+PLUS+Rounded+1c" rel="stylesheet">
@@ -15,7 +19,7 @@
 	
 	
 	
-	<title>@yield('title')家計簿アプリ</title>
+	<title>@yield('title')家計ボット</title>
 	</head>
 	@php 
 		$url=$_SERVER['REQUEST_URI'];
@@ -28,9 +32,12 @@
 	<body class="bg-else">
 	@endif
 	
+	
 	<header class="header">
 	<div class="container">
-	<h1 class="header__title">家計簿アプリ</h1>
+		
+		<h1 class="header__title">家計ボット</h1>
+	
 	@if(strpos($url,"/page")!==false)
 	<div class="header__right">
 		<div class="header__button">
@@ -45,8 +52,8 @@
 	
 	</header>
   @yield('main')
+	<script src="{{asset('/js/sample.js?p=(new Date()).getTime()')}}"></script>
 	<script type="text/javascript" src="{{asset('/js/script.js')}}"></script>
-	<script type="text/javascript" src="{{asset('/js/line-3m.js')}}">
 </script>
 </body>
 </html>

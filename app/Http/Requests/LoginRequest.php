@@ -13,7 +13,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        if($this->path() == 'page'){
+        if($this->path() == 'login/post'){
             return true;
         }else{
             return false;

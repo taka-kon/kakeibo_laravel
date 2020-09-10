@@ -46,8 +46,8 @@
           </dd>
         </dl>
         <!-- <a href="/signup?action=rewrite" class="button button--rewrite">書き直す</a> -->
-        <input name="back" type="submit" value="戻る" class="button button--rewrite">
-        <button class="button button--register">登録する</button>
+        <input name="back" type="submit" value="戻る" class="main-input__button button button--rewrite">
+        <button class="main-input__button button button--register">登録する</button>
   
       </form>
 
