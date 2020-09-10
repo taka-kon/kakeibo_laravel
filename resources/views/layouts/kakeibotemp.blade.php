@@ -24,13 +24,8 @@
 	@php 
 		$url=$_SERVER['REQUEST_URI'];
 	@endphp
-	@if(strpos($url,'/page')!==false)
 	<body class="bg-index">
-	@elseif($url=="/login")
-	<body class="bg-input">
-	@else
-	<body class="bg-else">
-	@endif
+
 	
 	
 	<header class="header">

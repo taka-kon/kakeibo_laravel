@@ -571,6 +571,9 @@ a {
   .main-input__msg {
     font-size: 1rem;
   }
+  .main-input__warning {
+    text-align: left;
+  }
 }
 
 .main-index {
@@ -742,6 +745,12 @@ a {
   background-color: #2f1313;
   padding: 10px 30px;
   font-size: 1.1rem;
+}
+.button--try {
+  background-color: #00b32d;
+  padding: 10px 30px;
+  font-size: 1.1rem;
+  margin-top: 20px;
 }
 .button--login {
   background-color: #d8460d;

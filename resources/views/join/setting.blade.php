@@ -32,7 +32,7 @@
   <div class="main-input__popup" id="js-popup">
     <div class="main-input__popup-inner">
       <div class="main-input__close-btn" id="js-close-btn"><i class="fas fa-times"></i></div>
-      <p>削除するとデータは二度と戻らなくなります。<br>本当にアカウントを削除しますか？</p>
+      <p class="main-input__warning">削除するとデータは二度と戻らなくなります。<br>本当にアカウントを削除しますか？</p>
       <div class="main-input__buttons">
         <form action="{{route('join.remove')}}" method="post">
           @csrf

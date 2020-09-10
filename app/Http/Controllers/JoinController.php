@@ -58,12 +58,11 @@ class JoinController extends Controller
         if(in_array(['email'=>$request->email],$email_db)){
             return redirect('/signup');
         }else{
-            // dd(public_path().$request->icon);
-            //public_path().$request->icon ="C:\xampp\htdocs\kakeibo_laravel\public/temp/ICON_5f59624d1bfe3.jpeg"
+            $key="njn393neicniebs3d67dnh8yh8t6btv6r56rrf";
             $user = new Users;
             $user->name = $request->name;
             $user->email = $request->email;
-            $user->password = $request->password;
+            $user->password = openssl_encrypt($request->password, 'AES-128-ECB', $key);
             $user->sex = $request->sex;
     
             $year = $request->year;
@@ -97,9 +96,13 @@ class JoinController extends Controller
                 copy(public_path()."/mem_pic/noImage.png",public_path()."/mem_pic/".$lastInsertedId."/icon.png");
     
             }
+            $data=[
+                'email'=>$request->email,
+                'password'=>$request->password,
+            ];
     
             //$request->icon = /temp/....jpg
-            return view('join.thanks');
+            return view('join.thanks',$data);
 
         }
     }
@@ -155,7 +158,6 @@ class JoinController extends Controller
         return redirect()->route('join.setting');
     }
     public function delete_user(Request $request){
-        dump("アカウント削除します");
         /**
          * アイコンが保存されているディレクトリを削除
          * usersテーブルの内、ログインユーザのidのレコードと、同じ値のexpensesテーブルのuser_idカラムのレコードを全て取得

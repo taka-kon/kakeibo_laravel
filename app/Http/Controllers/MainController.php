@@ -40,26 +40,34 @@ class MainController extends Controller
         $email=$request->email;
         $password = $request->password;
         $e_array=array();   //DB中のemailを纏めた配列
-        $pass_array=array();
+        // $pass_array=array();
         $users = Users::all();
         foreach($users as $user){
             array_push($e_array,$user->email);
-            array_push($pass_array,$user->password);
+            // array_push($pass_array,$user->password);
         }
 
-          //・email,passwordが両方DB上に存在するとき、ユーザ画面にリダイレクト
-        if(in_array($request->email,$e_array)&&in_array($request->password,$pass_array)){
-            //入力したemail,passwordの文字列からユーザidを取得しセッションに保存し取得
-            $id = Users::where('email', $request->email)->where('password', $request->password)->value('id');
-            $request->session()->put('id',$id); //ユーザidをセッションに保存
-            $request->session()->put('time',time());    //ログインした時刻も保存
+          //・emailがDB上に存在するとき、ユーザ画面にリダイレクト
+        if(in_array($request->email,$e_array)){
+            //emailの合致するレコードを取得、パスワードを取得
+            $key="njn393neicniebs3d67dnh8yh8t6btv6r56rrf";
+            $pass=Users::where('email',$request->email)->value('password');
+            $pw = openssl_decrypt($pass, 'AES-128-ECB', $key);
 
-            //次回から自動的にログインにチェックを入れたら
-            if($request->save=='on'){
-                setcookie('email',$request->email,time()+60*60*24*14);
+            if($pw==$request->password){
+                //入力したemail,passwordの文字列からユーザidを取得しセッションに保存し取得
+                $id = Users::where('email', $request->email)->value('id');
+                $request->session()->put('id',$id); //ユーザidをセッションに保存
+                $request->session()->put('time',time());    //ログインした時刻も保存
+    
+                //次回から自動的にログインにチェックを入れたら
+                if($request->save=='on'){
+                    setcookie('email',$request->email,time()+60*60*24*14);
+                }
+    
+                return redirect()->route('main.index');
+
             }
-
-            return redirect()->route('main.index');
         }else{
             return redirect()->route('main.login');
         }
@@ -82,13 +90,9 @@ class MainController extends Controller
         $sum3m_array=$request->sum3m;
         $sum6m_array=$request->sum6m;
         $sum_header=$request->sum_header;
-        // dump($ses_id);
-        // dd("ユーザ画面です");
-        
         
         $data=[
             'ses_id'=>$ses_id,
-            // 'time'=>$ses_time,
             'name'=>$name,
             'icon'=>$icon_pass,
             'date'=>$date,

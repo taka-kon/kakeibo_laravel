@@ -135,6 +135,7 @@
     z-index: 1;
     cursor: pointer;
   }
+  
   &__buttons{
     display:flex;
     justify-content: space-around;
@@ -145,6 +146,9 @@
   @media screen and (max-width:720px){
     &__msg{
       font-size:1rem;
+    }
+    &__warning{
+      text-align:left;
     }
   }
 }
